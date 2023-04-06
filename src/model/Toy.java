@@ -4,6 +4,7 @@ public class Toy {
     private String name;
     private double price;
     private String size;
+
     private String material;
     private int age;
 
@@ -58,9 +59,6 @@ public class Toy {
 
     @Override
     public String toString() {
-        StringBuilder strB = new StringBuilder();
-        strB.append("\nName: ").append(name).append("\nPrice: ").append(price).append("\nSize: ")
-                .append(size).append("\nMaterial: ").append(material).append("\nAge: ").append(age).append('\n');
-        return strB.toString();
+        return "\nName: " + name + "\nPrice: " + price + "\nSize: " + size + "\nMaterial: " + material + "\nAge: " + age + '\n';
     }
 }

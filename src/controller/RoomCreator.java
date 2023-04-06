@@ -1,26 +1,25 @@
 package controller;
 
 import model.Toy;
-import service.Examples;
 import view.Constants;
 
 import java.util.ArrayList;
 
 public class RoomCreator {
-    private ArrayList<Toy> toys = new ArrayList<Toy>();
 
-    public ArrayList roomCreating() {
-        ArrayList<Toy> available = new ArrayList<Toy>();
+    public ArrayList<Toy> roomCreating() {
+        ArrayList<Toy> available = new ArrayList<>();
         Constants constants = new Constants();
-        Examples examples = new Examples();
+        MainController mainController = new MainController();
 
-        toys = examples.init();
+        ArrayList<Toy> toys = mainController.toysList;
+        if (toys.isEmpty()) toys = mainController.initToys();
         int countOfToys = 0;
         double cash = 0;
         for (Toy toy : toys) {
             if (countOfToys < constants.getAmountOfToys()) {
                 cash += toy.getPrice();
-                if (cash > constants.getMoney()){
+                if (cash > constants.getMoney()) {
                     cash -= toy.getPrice();
                     continue;
                 }

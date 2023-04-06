@@ -1,14 +1,14 @@
 package view;
 
 public class Constants {
-    private final double money = 3859.6;
-    private final int amountOfToys = 7;
 
     public double getMoney() {
+        double money = 3859.6;
         return money;
     }
 
     public int getAmountOfToys() {
+        int amountOfToys = 7;
         return amountOfToys;
     }
 }

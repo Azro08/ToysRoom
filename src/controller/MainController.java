@@ -3,7 +3,7 @@ package controller;
 
 import model.Toy;
 import model.ToyComparator;
-import service.Examples;
+import service.Size;
 import service.WrongAgeException;
 import view.Constants;
 import view.View;
@@ -12,30 +12,69 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Scanner;
 
 public class MainController {
-    private View view = new View();
-    private RoomCreator roomCreator = new RoomCreator();
-    private ArrayList<Toy> toys = new ArrayList<Toy>();
+    private final Scanner input = new Scanner(System.in);
+    private final View view = new View();
+    private final RoomCreator roomCreator = new RoomCreator();
+
+    public ArrayList<Toy> toysList = new ArrayList<>();
+    public ArrayList<Toy> roomCreatorToysList = new ArrayList<>();
+
+    public ArrayList<Toy> initToys() {
+        if (toysList.isEmpty()){
+            toysList.add(new Toy("Car", 250.6, Size.SMALL.toString(), "Plastic", 3));
+            toysList.add(new Toy("Car", 1500.9, Size.BIG.toString(), "Aluminium", 16));
+            toysList.add(new Toy("Car", 166.7, Size.MEDIUM.toString(), "Wood", 3));
+            toysList.add(new Toy("Rubik's cube", 25.5, Size.SMALL.toString(), "Plastic", 8));
+            toysList.add(new Toy("Alphabets cubs", 960.1, Size.STANDARD.toString(), "Wood", 0));
+            toysList.add(new Toy("Doll", 20.6, Size.SMALL.toString(), "Rubber", 0));
+            toysList.add(new Toy("Soccer Ball", 1250.6, Size.STANDARD.toString(), "Leather", 10));
+            toysList.add(new Toy("Cubs with pictures", 250.6, Size.SMALL.toString(), "Wood", 0));
+            toysList.add(new Toy("Cubs with dots", 550.4, Size.SMALL.toString(), "Metal", 0));
+            toysList.add(new Toy("Cubs with numbers", 230.6, Size.SMALL.toString(), "Wood", 3));
+        }
+        return toysList;
+    }
+
     public void go() {
         Constants constants = new Constants();
-        System.out.println("Amount of toys: " + constants.getAmountOfToys());
+        System.out.println("Amount of toysList: " + constants.getAmountOfToys());
         System.out.println("Money: " + constants.getMoney());
     }
 
     private void init() {
-        toys = roomCreator.roomCreating();
+        roomCreatorToysList = roomCreator.roomCreating();
     }
 
+    void addNewToy() {
+        if (toysList.isEmpty()) toysList = initToys();
+        String name, material, size;
+        int age;
+        double price;
+        System.out.println("Name: ");
+        name = input.nextLine();
+        System.out.println("Price: ");
+        price = input.nextDouble();
+        System.out.println("Size(STANDARD, SMALL, MEDIUM, BIG): ");
+        size = input.next().toUpperCase();
+        System.out.println("Material: ");
+        material = input.next();
+        System.out.println("Age: ");
+        age = input.nextInt();
+        input.nextLine();
+        Toy newToy = new Toy(name, price, size, material, age);
+        toysList.add(newToy);
+        System.out.println("Done.");
+    }
 
     void printAllAvailable() {
-        Examples examples = new Examples();
-        ArrayList<Toy> toyExp;
-        toyExp = examples.init();
         double count = 0.0;
-        for (Toy toy :
-                toyExp) {
+        if (toysList.isEmpty()){
+            toysList = initToys();
+        }
+        for (Toy toy : toysList) {
             view.printElement(toy.toString());
             count += toy.getPrice();
         }
@@ -45,7 +84,10 @@ public class MainController {
     void printAll() {
         double count = 0;
         init();
-        for (Toy toy : toys) {
+        if (toysList.isEmpty()){
+            toysList = initToys();
+        }
+        for (Toy toy : toysList) {
             view.printElement(toy.toString());
             count += toy.getPrice();
         }
@@ -54,9 +96,8 @@ public class MainController {
 
     void sortByName() {
         init();
-        Collections.sort(toys, new ToyComparator());
-        for (Toy toy :
-                toys) {
+        toysList.sort(new ToyComparator());
+        for (Toy toy : toysList) {
             view.printElement(toy.toString());
         }
     }
@@ -65,10 +106,10 @@ public class MainController {
         init();
         System.out.print("Input name: ");
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String str = null;
+        String str;
         try {
             str = reader.readLine();
-            for (Toy toy : toys) {
+            for (Toy toy : toysList) {
                 if (str.equals(toy.getName())) {
                     view.printElement(toy.toString());
                 }
@@ -82,7 +123,7 @@ public class MainController {
         init();
         int elAge = 0;
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String str = null;
+        String str;
         do {
             System.out.print("Input age: ");
             try {
@@ -97,7 +138,7 @@ public class MainController {
 
         } while (elAge < 0);
 
-        for (Toy toy : toys) {
+        for (Toy toy : toysList) {
             if (elAge >= toy.getAge()) {
                 view.printElement(toy.toString());
             }

@@ -21,27 +21,16 @@ public class MenuController {
                 ex.printStackTrace();
             }
             switch (key) {
-                case '0':
-                    System.exit(0);
-                case '1':
-                    mainController.printAllAvailable();
-                    break;
-                case '2':
-                    mainController.printAll();
-                    break;
-                case '3':
-                    mainController.findByAge();
-                    break;
-                case '4':
-                    mainController.findByName();
-                    break;
-                case '5':
-                    mainController.sortByName();
-                    break;
-                default:
-                    System.out.println("Try again");
-                    break;
+                case '0' -> System.exit(0);
+                case '1' -> mainController.addNewToy();
+                case '2' -> mainController.printAllAvailable();
+                case '3' -> mainController.printAll();
+                case '4' -> mainController.findByAge();
+                case '5' -> mainController.findByName();
+                case '6' -> mainController.sortByName();
+                default -> System.out.println("Try again");
             }
         }
     }
+
 }
